@@ -5,11 +5,10 @@ import { getPost } from '../../Api/posts';
 
 import './PostList.scss';
 
-const PostList = ({ posts, setSelectedPostId, setPost }) => {
+const PostList = ({ posts, setPost }) => {
   const handleClickOpen = (event) => {
     const id = event.target.dataset.postId;
 
-    setSelectedPostId(id);
     getPost(setPost, id);
   };
 
@@ -44,7 +43,6 @@ PostList.propTypes = {
     title: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired,
   })),
-  setSelectedPostId: PropTypes.func.isRequired,
   setPost: PropTypes.func.isRequired,
 };
 

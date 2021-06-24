@@ -9,8 +9,7 @@ import './App.scss';
 
 function App() {
   const [posts, setPosts] = useState([]);
-  const [selectedPostId, setSelectedPostId] = useState(0);
-  const [post, setPost] = useState({});
+  const [post, setPost] = useState(null);
 
   useEffect(() => getPosts(setPosts), []);
 
@@ -24,13 +23,12 @@ function App() {
         <div className="App__sidebar">
           <PostList
             posts={posts}
-            setSelectedPostId={setSelectedPostId}
             setPost={setPost}
           />
         </div>
 
         <div className="App__details">
-          {!!selectedPostId && (
+          {!!post && (
             <PostDetails {...post} />
           )}
         </div>
