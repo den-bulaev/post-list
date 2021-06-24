@@ -1,23 +1,30 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { getPost } from '../../Api/posts';
+import { getPost, deletePost } from '../../Api/posts';
 
 import './PostList.scss';
 
-const PostList = ({ posts, setPost }) => {
+const PostList = ({ posts, setPost, getPosts }) => {
   const [postId, setPostId] = useState(0);
 
   const handleClickOpen = (event) => {
     const id = event.target.dataset.postId;
 
-    getPost(setPost, id);
+    getPost(id)
+      .then((response) => setPost(response));
     setPostId(id);
   };
 
   const handleClickClose = () => {
     setPost(null);
     setPostId(0);
+  };
+
+  const onDelete = async (event) => {
+    await deletePost(event.target.dataset.postId);
+
+    getPosts();
   };
 
   return (
@@ -31,14 +38,25 @@ const PostList = ({ posts, setPost }) => {
             {title}
           </h2>
 
-          <button
-            data-post-id={id}
-            className="list__button"
-            type="button"
-            onClick={id === +postId ? handleClickClose : handleClickOpen}
-          >
-            {id === +postId ? 'close' : 'open'}
-          </button>
+          <div className="list__buttons-container">
+            <button
+              data-post-id={id}
+              className="list__button"
+              type="button"
+              onClick={id === +postId ? handleClickClose : handleClickOpen}
+            >
+              {id === +postId ? 'close' : 'open'}
+            </button>
+
+            <button
+              data-post-id={id}
+              className="list__button"
+              type="button"
+              onClick={onDelete}
+            >
+              delete
+            </button>
+          </div>
         </li>
       ))}
     </ul>
@@ -52,6 +70,7 @@ PostList.propTypes = {
     body: PropTypes.string.isRequired,
   })),
   setPost: PropTypes.func.isRequired,
+  getPosts: PropTypes.func.isRequired,
 };
 
 PostList.defaultProps = {

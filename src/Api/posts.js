@@ -1,14 +1,8 @@
 /* eslint-disable import/prefer-default-export */
-import request from './request';
+import { remove, download } from './requests';
 
-export const getPosts = (setPosts) => {
-  request('posts', { method: 'GET' })
-    .then((response) => setPosts(response));
-};
+export const getPosts = (endpoint) => download(endpoint);
 
-export const getPost = (setPost, id) => {
-  request(`posts/${id}?_embed=comments`)
-    .then((response) => {
-      setPost(response);
-    });
-};
+export const getPost = (id) => download(`posts/${id}?_embed=comments`);
+
+export const deletePost = (postId) => remove(`posts/${postId}`);

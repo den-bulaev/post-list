@@ -11,7 +11,10 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [post, setPost] = useState(null);
 
-  useEffect(() => getPosts(setPosts), []);
+  useEffect(() => {
+    getPosts('posts')
+      .then((response) => setPosts(response));
+  }, []);
 
   return (
     <>
