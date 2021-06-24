@@ -1,2 +1,0 @@
-(this["webpackJsonppost-list"]=this["webpackJsonppost-list"]||[]).push([[0],{11:function(t,n,e){"use strict";e.r(n);e(0);var s=e(3),c=e.n(s),o=(e(8),e(9),e(1));var i=function(){return Object(o.jsx)("h1",{children:"OK"})};c.a.render(Object(o.jsx)(i,{}),document.getElementById("root"))},8:function(t,n,e){},9:function(t,n,e){}},[[11,1,2]]]);
-//# sourceMappingURL=main.2bfba580.chunk.js.map
