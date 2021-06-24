@@ -1,6 +1,12 @@
 .App {
+  &__header {
+    display: flex;
+    justify-content: center;
+  }
+
   &__main {
     display: flex;
+    margin: 0 20px;
   }
 
   &__sidebar {

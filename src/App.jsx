@@ -16,7 +16,7 @@ function App() {
   return (
     <>
       <header className="App__header">
-        <h1 className="App__header-text">Posts List</h1>
+        <h1 className="App__title">Posts List</h1>
       </header>
 
       <main className="App__main">

@@ -7,7 +7,7 @@ export const getPosts = (setPosts) => {
 };
 
 export const getPost = (setPost, id) => {
-  request(`posts/${id}`)
+  request(`posts/${id}?_embed=comments`)
     .then((response) => {
       setPost(response);
     });

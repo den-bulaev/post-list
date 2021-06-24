@@ -6,18 +6,18 @@ import { getPost } from '../../Api/posts';
 import './PostList.scss';
 
 const PostList = ({ posts, setPost }) => {
-  const [postIsOpen, setPostIsOpen] = useState(false);
+  const [postId, setPostId] = useState(0);
 
   const handleClickOpen = (event) => {
     const id = event.target.dataset.postId;
 
     getPost(setPost, id);
-    setPostIsOpen(true);
+    setPostId(id);
   };
 
   const handleClickClose = () => {
     setPost(null);
-    setPostIsOpen(false);
+    setPostId(0);
   };
 
   return (
@@ -35,9 +35,9 @@ const PostList = ({ posts, setPost }) => {
             data-post-id={id}
             className="list__open-button"
             type="button"
-            onClick={postIsOpen ? handleClickClose : handleClickOpen}
+            onClick={id === +postId ? handleClickClose : handleClickOpen}
           >
-            {postIsOpen ? 'close' : 'open'}
+            {id === +postId ? 'close' : 'open'}
           </button>
         </li>
       ))}
