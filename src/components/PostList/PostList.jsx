@@ -33,7 +33,7 @@ const PostList = ({ posts, setPost }) => {
 
           <button
             data-post-id={id}
-            className="list__open-button"
+            className="list__button"
             type="button"
             onClick={id === +postId ? handleClickClose : handleClickOpen}
           >
