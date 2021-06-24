@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { getPost } from '../../Api/posts';
@@ -6,10 +6,18 @@ import { getPost } from '../../Api/posts';
 import './PostList.scss';
 
 const PostList = ({ posts, setPost }) => {
+  const [postIsOpen, setPostIsOpen] = useState(false);
+
   const handleClickOpen = (event) => {
     const id = event.target.dataset.postId;
 
     getPost(setPost, id);
+    setPostIsOpen(true);
+  };
+
+  const handleClickClose = () => {
+    setPost(null);
+    setPostIsOpen(false);
   };
 
   return (
@@ -27,9 +35,9 @@ const PostList = ({ posts, setPost }) => {
             data-post-id={id}
             className="list__open-button"
             type="button"
-            onClick={handleClickOpen}
+            onClick={postIsOpen ? handleClickClose : handleClickOpen}
           >
-            open
+            {postIsOpen ? 'close' : 'open'}
           </button>
         </li>
       ))}
