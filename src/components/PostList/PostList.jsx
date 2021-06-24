@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { getPost } from '../../Api/posts';
+
 import './PostList.scss';
 
-const PostList = ({ posts, setSelectedPostId }) => {
+const PostList = ({ posts, setSelectedPostId, setPost }) => {
   const handleClickOpen = (event) => {
-    setSelectedPostId(event.target.dataset.postid);
+    const id = event.target.dataset.postId;
+
+    setSelectedPostId(id);
+    getPost(setPost, id);
   };
 
   return (
@@ -40,6 +45,7 @@ PostList.propTypes = {
     body: PropTypes.string.isRequired,
   })),
   setSelectedPostId: PropTypes.func.isRequired,
+  setPost: PropTypes.func.isRequired,
 };
 
 PostList.defaultProps = {
