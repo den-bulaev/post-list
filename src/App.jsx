@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState } from 'react';
 
-import request from './Api/request';
+import { getPosts } from './Api/posts';
 import PostList from './components/PostList/PostList';
 import PostDetails from './components/PostDetails/PostDetails';
 
@@ -9,14 +9,9 @@ import './App.scss';
 
 function App() {
   const [posts, setPosts] = useState([]);
-  const [selectedPostId, setSelectedPostId] = useState(null);
+  const [selectedPostId, setSelectedPostId] = useState(0);
 
-  useEffect(() => {
-    const options = { method: 'GET' };
-
-    request('posts', options)
-      .then((response) => setPosts(response));
-  }, []);
+  useEffect(() => getPosts(setPosts), []);
 
   return (
     <>
@@ -31,7 +26,7 @@ function App() {
 
         <div className="App__details">
           {!!selectedPostId && (
-            <PostDetails selectedPostId={selectedPostId} />
+            <PostDetails postId={selectedPostId} />
           )}
         </div>
       </main>
