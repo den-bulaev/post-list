@@ -1,34 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { getPost } from '../../Api/posts';
 import Comments from '../Comments/Comments';
 
-const PostDetails = ({ body, title, comments }) => (
-  <div className="post">
-    <h2 className="post__title">
-      {title}
-    </h2>
+const PostDetails = ({ postId }) => {
+  const [post, setPost] = useState(null);
 
-    <p className="post__body">
-      {body}
-    </p>
+  useEffect(() => {
+    getPost(postId)
+      .then((result) => setPost(result));
+  }, []);
 
-    <Comments comments={comments} />
-  </div>
-);
+  return post && (
+    <div className="post">
+      <h2 className="post__title">
+        {post.title}
+      </h2>
 
-PostDetails.propTypes = {
-  body: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  comments: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    postId: PropTypes.number.isRequired,
-    body: PropTypes.string.isRequired,
-  })),
+      <p className="post__body">
+        {post.body}
+      </p>
+
+      <Comments comments={post.comments} />
+    </div>
+  );
 };
 
-PostDetails.defaultProps = {
-  comments: [],
+PostDetails.propTypes = {
+  postId: PropTypes.number.isRequired,
 };
 
 export default React.memo(PostDetails);

@@ -1,31 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { debounce } from 'lodash';
 
-import { getPost, deletePost } from '../../Api/posts';
+import { deletePost, getPosts } from '../../Api/posts';
 
 import './PostList.scss';
 
-const PostList = ({ posts, setPost, getPosts }) => {
-  const [postId, setPostId] = useState(0);
+const PostList = ({
+  setSelectedPostId, selectedPostId,
+}) => {
+  const [posts, setPosts] = useState([]);
+  const [reRender, setReRender] = useState(false);
+
+  useEffect(() => {
+    getPosts()
+      .then((response) => setPosts(response));
+  }, [reRender]);
 
   const handleClickOpen = (event) => {
     const id = event.target.dataset.postId;
 
-    getPost(id)
-      .then((response) => setPost(response));
-    setPostId(id);
+    setSelectedPostId(+id);
   };
 
   const handleClickClose = () => {
-    setPost(null);
-    setPostId(0);
+    setSelectedPostId(0);
   };
 
   const onDelete = async (event) => {
     await deletePost(event.target.dataset.postId);
+    await getPosts()
+      .then((result) => setPosts(result));
 
-    getPosts();
+    setReRender(!reRender);
   };
+
+  const debouncedDelete = () => debounce(onDelete, 500);
 
   return (
     <ul className="list">
@@ -43,16 +53,16 @@ const PostList = ({ posts, setPost, getPosts }) => {
               data-post-id={id}
               className="list__button"
               type="button"
-              onClick={id === +postId ? handleClickClose : handleClickOpen}
+              onClick={id === selectedPostId ? handleClickClose : handleClickOpen}
             >
-              {id === +postId ? 'close' : 'open'}
+              {id === selectedPostId ? 'close' : 'open'}
             </button>
 
             <button
               data-post-id={id}
-              className="list__button"
+              className="list__button list__delete"
               type="button"
-              onClick={onDelete}
+              onClick={debouncedDelete()}
             >
               delete
             </button>
@@ -64,17 +74,8 @@ const PostList = ({ posts, setPost, getPosts }) => {
 };
 
 PostList.propTypes = {
-  posts: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    body: PropTypes.string.isRequired,
-  })),
-  setPost: PropTypes.func.isRequired,
-  getPosts: PropTypes.func.isRequired,
-};
-
-PostList.defaultProps = {
-  posts: [],
+  setSelectedPostId: PropTypes.func.isRequired,
+  selectedPostId: PropTypes.number.isRequired,
 };
 
 export default React.memo(PostList);

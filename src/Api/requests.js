@@ -25,3 +25,5 @@ export const download = (endpoint) => {
 
   return request(endpoint, method);
 };
+
+export const add = (endpoint, options) => request(endpoint, options);

@@ -13,4 +13,10 @@
     max-height: 40px;
     min-height: 30px;
   }
+
+  &__delete {
+    &:checked {
+      display: none;
+    }
+  }
 }

@@ -1,20 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { getPosts } from './Api/posts';
 import PostList from './components/PostList/PostList';
 import PostDetails from './components/PostDetails/PostDetails';
 
 import './App.scss';
 
 function App() {
-  const [posts, setPosts] = useState([]);
-  const [post, setPost] = useState(null);
-
-  useEffect(() => {
-    getPosts('posts')
-      .then((response) => setPosts(response));
-  }, []);
+  const [selectedPostId, setSelectedPostId] = useState(0);
 
   return (
     <>
@@ -25,14 +18,14 @@ function App() {
       <main className="App__main">
         <div className="App__sidebar">
           <PostList
-            posts={posts}
-            setPost={setPost}
+            selectedPostId={selectedPostId}
+            setSelectedPostId={setSelectedPostId}
           />
         </div>
 
         <div className="App__details">
-          {!!post && (
-            <PostDetails {...post} />
+          {!!selectedPostId && (
+            <PostDetails postId={selectedPostId} />
           )}
         </div>
       </main>
