@@ -42,20 +42,20 @@ const PostList = ({
   const debouncedDelete = () => debounce(onDelete, 500);
 
   return (
-    <ul className="list">
+    <ul className="PostList">
       {posts.map(({ id, title }) => (
         <li
-          className="list__item"
+          className="PostList__item"
           key={id}
         >
           <h2>
             {title}
           </h2>
 
-          <div className="list__buttons-container">
+          <div className="PostList__buttons-container">
             <button
               data-post-id={id}
-              className="list__button"
+              className="PostList__button"
               type="button"
               onClick={id === selectedPostId ? debouncedClose() : debouncedOpen()}
             >
@@ -64,7 +64,7 @@ const PostList = ({
 
             <button
               data-post-id={id}
-              className="list__button list__delete"
+              className="PostList__button PostList__delete"
               type="button"
               onClick={debouncedDelete()}
             >
