@@ -17,19 +17,19 @@ function App() {
       </header>
 
       <main className="App__main">
-        <div className="App__sidebar">
+        <section className="App__sidebar">
           <PostList
             selectedPostId={selectedPostId}
             setSelectedPostId={setSelectedPostId}
           />
-        </div>
+        </section>
 
-        <div className="App__details">
+        <section className="App__details">
           {!!selectedPostId && (
             <PostDetails postId={selectedPostId} />
           )}
           <NewPost />
-        </div>
+        </section>
       </main>
     </>
   );
