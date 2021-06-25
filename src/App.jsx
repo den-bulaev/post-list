@@ -1,14 +1,21 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import PostList from './components/PostList/PostList';
 import PostDetails from './components/PostDetails/PostDetails';
 import NewPost from './components/NewPost/NewPost';
+import { getPosts } from './Api/posts';
 
 import './App.scss';
 
 function App() {
   const [selectedPostId, setSelectedPostId] = useState(0);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    getPosts()
+      .then((response) => setPosts(response));
+  }, []);
 
   return (
     <>
@@ -21,6 +28,8 @@ function App() {
           <PostList
             selectedPostId={selectedPostId}
             setSelectedPostId={setSelectedPostId}
+            setPosts={setPosts}
+            posts={posts}
           />
         </section>
 
@@ -28,7 +37,7 @@ function App() {
           {!!selectedPostId && (
             <PostDetails postId={selectedPostId} />
           )}
-          <NewPost />
+          <NewPost setPosts={setPosts} />
         </section>
       </main>
     </>

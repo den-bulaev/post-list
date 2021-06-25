@@ -1,13 +1,34 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+
+import { addPost, getPosts } from '../../Api/posts';
 
 import './NewPost.scss';
 
-const NewPost = () => {
+const NewPost = ({ setPosts }) => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const options = {
+      method: 'POST',
+      body: JSON.stringify({
+        title,
+        body,
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    };
+
+    await addPost(options);
+    getPosts()
+      .then((result) => setPosts(result));
+
+    setBody('');
+    setTitle('');
   };
 
   const setData = (event) => {
@@ -58,6 +79,10 @@ const NewPost = () => {
       </form>
     </>
   );
+};
+
+NewPost.propTypes = {
+  setPosts: PropTypes.func.isRequired,
 };
 
 export default React.memo(NewPost);

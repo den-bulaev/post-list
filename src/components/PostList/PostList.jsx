@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
 
@@ -7,16 +7,8 @@ import { deletePost, getPosts } from '../../Api/posts';
 import './PostList.scss';
 
 const PostList = ({
-  setSelectedPostId, selectedPostId,
+  setSelectedPostId, selectedPostId, posts, setPosts,
 }) => {
-  const [posts, setPosts] = useState([]);
-  const [reRender, setReRender] = useState(false);
-
-  useEffect(() => {
-    getPosts()
-      .then((response) => setPosts(response));
-  }, [reRender]);
-
   const handleClickOpen = (event) => {
     const id = event.target.dataset.postId;
 
@@ -33,10 +25,8 @@ const PostList = ({
 
   const onDelete = async (event) => {
     await deletePost(event.target.dataset.postId);
-    await getPosts()
+    getPosts()
       .then((result) => setPosts(result));
-
-    setReRender(!reRender);
   };
 
   const debouncedDelete = () => debounce(onDelete, 300);
@@ -78,8 +68,18 @@ const PostList = ({
 };
 
 PostList.propTypes = {
+  posts: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+  })),
+  setPosts: PropTypes.func.isRequired,
   setSelectedPostId: PropTypes.func.isRequired,
   selectedPostId: PropTypes.number.isRequired,
+};
+
+PostList.defaultProps = {
+  posts: [],
 };
 
 export default React.memo(PostList);
