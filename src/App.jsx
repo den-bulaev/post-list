@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import PostList from './components/PostList/PostList';
 import PostDetails from './components/PostDetails/PostDetails';
+import NewPost from './components/NewPost/NewPost';
 
 import './App.scss';
 
@@ -27,6 +28,7 @@ function App() {
           {!!selectedPostId && (
             <PostDetails postId={selectedPostId} />
           )}
+          <NewPost />
         </div>
       </main>
     </>
