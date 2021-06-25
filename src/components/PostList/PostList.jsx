@@ -23,13 +23,13 @@ const PostList = ({
     setSelectedPostId(+id);
   };
 
-  const debouncedOpen = () => debounce(handleClickOpen, 500);
+  const debouncedOpen = () => debounce(handleClickOpen, 300);
 
   const handleClickClose = () => {
     setSelectedPostId(0);
   };
 
-  const debouncedClose = () => debounce(handleClickClose, 500);
+  const debouncedClose = () => debounce(handleClickClose, 300);
 
   const onDelete = async (event) => {
     await deletePost(event.target.dataset.postId);
@@ -39,7 +39,7 @@ const PostList = ({
     setReRender(!reRender);
   };
 
-  const debouncedDelete = () => debounce(onDelete, 500);
+  const debouncedDelete = () => debounce(onDelete, 300);
 
   return (
     <ul className="PostList">
