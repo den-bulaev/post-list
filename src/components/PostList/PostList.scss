@@ -3,6 +3,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 10px;
+    transition: 0.3s;
+    border: 1px dashed black;
+
+    &:hover {
+      transform: translate(5px, 5px);
+    }
 
     &:not(:last-child) {
       margin-bottom: 10px;
