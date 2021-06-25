@@ -23,9 +23,13 @@ const PostList = ({
     setSelectedPostId(+id);
   };
 
+  const debouncedOpen = () => debounce(handleClickOpen, 500);
+
   const handleClickClose = () => {
     setSelectedPostId(0);
   };
+
+  const debouncedClose = () => debounce(handleClickClose, 500);
 
   const onDelete = async (event) => {
     await deletePost(event.target.dataset.postId);
@@ -53,7 +57,7 @@ const PostList = ({
               data-post-id={id}
               className="list__button"
               type="button"
-              onClick={id === selectedPostId ? handleClickClose : handleClickOpen}
+              onClick={id === selectedPostId ? debouncedClose() : debouncedOpen()}
             >
               {id === selectedPostId ? 'close' : 'open'}
             </button>
