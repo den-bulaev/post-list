@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
 
@@ -9,6 +9,13 @@ import './PostList.scss';
 const PostList = ({
   setSelectedPostId, selectedPostId, posts, setPosts,
 }) => {
+  const [reRender, setReRender] = useState(false);
+
+  useEffect(() => {
+    getPosts()
+      .then((result) => setPosts(result));
+  }, [reRender]);
+
   const handleClickOpen = (event) => {
     const id = event.target.dataset.postId;
 
@@ -27,6 +34,8 @@ const PostList = ({
     await deletePost(event.target.dataset.postId);
     getPosts()
       .then((result) => setPosts(result));
+
+    setReRender(!reRender);
   };
 
   const debouncedDelete = () => debounce(onDelete, 300);
